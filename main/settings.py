@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
+    'django_filters',
     'corsheaders',
     'django_extensions',
     'registration.apps.RegistrationConfig',
@@ -100,6 +101,21 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'mysql': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db_donation', # 数据库
+        'USER': 'root',  # 用户名
+        'PASSWORD': 'root',  # 密码
+        'PORT': '3306',  # 端口
+        'HOST': '127.0.0.1',  # IP
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
+        'TEST': {
+            'CHARSET': 'utf8mb4',
+            'COLLATION': 'utf8mb4_general_ci',
+        },
     }
 }
 
@@ -143,18 +159,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+# `python manage.py collectstatic`
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 AUTH_USER_MODEL = 'registration.User'
 
 # 短信配置
+SMS_USE = False # 是否使用短信验证码(否则为假的验证码)
 SMS_accessKeyId = '<accessKeyId>'
 SMS_accessSecret = '<accessSecret>'
 SMS_TemplateCode = '<TemplateCode>'
 SMS_SignName = '<SignName>'
 
 # custom added
-AUTHENTICATION_BACKENDS = ( 
+AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
 )
@@ -169,7 +188,19 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ],
 }
 
 LOGOUT_ON_PASSWORD_CHANGE = False
 ACCOUNT_LOGOUT_ON_GET = True
+
+# let csrf can sent over ajax calls
+CSRF_COOKIE_HTTPONLY = False
+# CORS_ORIGIN_ALLOW_ALL = True
+
+HENDRIX_CHILD_RESOURCES = (
+    'hendrix.contrib.concurrency.resources.MessageResource',
+    'hendrix.contrib.resources.static.DjangoStaticsFinder'
+)

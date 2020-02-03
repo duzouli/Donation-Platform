@@ -23,20 +23,38 @@ pip install -r requirements-conda.txt
 pip install -r requirements-pip.txt
 ```
 
-## step-02 - 初始化
+## step-02 - 创建sql
+> 注: 默认采用sqlite数据库, **step-02**无需操作
+
+1. 创建数据库
+	```sql
+	CREATE DATABASE db_donation DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci;
+	```
+2. 修改 `main/settings.py`, 将 `DATABASES` 下的 `default` 项配置改为MySQL, 并修改为数据库相关配置
+
+## step-03 - 初始化
 ```bash
 # 数据库初始化(创建表)
 python manage.py migrate
 # 创建管理用户(用户名、手机号、密码)
 python manage.py createsuperuser
+# static文件初始化(deploy only required)
+python manage.py collectstatic
 ```
 
-## step-03 - 运行
+## step-04 - 运行
 ```bash
-python manage.py runserver 0.0.0.0:8989
+# start server (use one of below 3 types of wsgi-server:)
+# # wsgi-server 1: django server (worst performance)
+python manage.py runserver 127.0.0.1:8989
+# # wsgi-server 2: tornado (medium performance)
+python tornado-server.py --port=8989
+# # wsgi-server 3: hendrix(twisted) (best performance)
+python twisted-server.py --port 8989
 ```
+* 注: 不带`port`参数时, 默认端口为`8000`
 
-## step-04 - 访问
+## step-05 - 访问
 - 前台页面: http://127.0.0.1:8989/
 - ApiRoot: http://127.0.0.1:8989/api/
 - 管理后台: http://127.0.0.1:8989/admin/

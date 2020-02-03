@@ -7,7 +7,7 @@
 }
 /* =======================================================
 *
-* 	Template Style 
+* 	Template Style
 *
 * ======================================================= */
 body {
@@ -148,10 +148,7 @@ h1, h2, h3, h4, h5, h6, figure {
     display: none;
   }
 }
-.fh5co-nav ul {
-  padding: 20px 0;
-  margin: 0;
-}
+
 .fh5co-nav ul li {
   font-family: "Source Sans Pro", sans-serif;
   padding: 0;
@@ -161,6 +158,15 @@ h1, h2, h3, h4, h5, h6, figure {
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 600;
+}
+@media screen and (max-width: 768px) {
+  .fh5co-nav ul {
+    padding: 30px 0px 0px;
+
+  }
+  .fh5co-nav ul li {
+    letter-spacing: 0px;
+  }
 }
 .fh5co-nav ul li a {
   position: relative;
@@ -828,7 +834,7 @@ input[type="text"] {
 }
 
 .form-group {
-  margin-bottom: 30px;
+  /*margin-bottom: 30px;*/
 }
 .form-group .btn-modify {
   font-family: "Libre Baskerville", serif;
@@ -1371,20 +1377,27 @@ input[type="text"] {
   justify-content: space-evenly;
   padding: 20px;
   padding-top: 0px;
+  margin-top: 60px;
 }
+
+.unit-table{
+  margin-top: 40px;
+  margin-bottom: 60px;
+}
+
 .unit{
   transition:all 0.5s;
   width: 44%;
-  border-radius: 8px;
+  /*border-radius: 8px;*/
   margin-bottom: 40px;
-  background-color: rgba(174, 236, 247, 0.6);
+  background-color:  rgba(0, 150, 136, 0.12);
   box-shadow: 8px 8px 8px rgb(192, 192, 192);
 }
 .unit:hover{
   opacity: 1;
   cursor: pointer;
   transform: scale(1.06);
-  background-color: rgba(158, 247, 224, 1);
+  background-color: rgba(20, 170, 33, 0.06);
 }
 .unit ul>:nth-child(1){
   text-align: center;
@@ -1398,19 +1411,56 @@ input[type="text"] {
   flex-direction: column;
   float: left;
   justify-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+  margin-top: 5px;
 }
 .contact_box .contact-info{
   width: 100%;
 }
 .contact_box input,
-.demand_box input{
+.demand_box input,
+.demand_box select {
   width: 200px;
   float: left;
   margin-bottom: 10px;
 }
+@media screen and (max-width: 768px) {
+  input[name="name"],
+  input[name="address"]{
+    margin-bottom: 10px
+  }
+  .contact_box input{
+    width: 150px;
+    float: left;
+    margin-bottom: 10px;
+  }
+  .demand_box input,
+  .demand_box select {
+    width: 300px;
+    float: left;
+    margin-bottom: 10px;
+  }
+}
+.demand_info > .dropdown.bootstrap-select.form-control.bs3 {
+  width: 200px !important;
+  float: left;
+}
+@media screen and (max-width: 768px){
+  .demand_info > .dropdown.bootstrap-select.form-control.bs3 {
+    width: 300px !important;
+    float: left;
+  }
+}
+.demand_info > .dropdown.bootstrap-select.form-control.bs3 > button.dropdown-toggle {
+  height: 50px;
+}
 .demand_box input.ps{
   width: 400px;
+}
+@media screen and (max-width: 768px){
+  .demand_box input.ps{
+    width: 300px;
+  }
 }
 .add_contact,
 .add_demand{
@@ -1422,7 +1472,19 @@ input[type="text"] {
   transition: all 0.4s;
   letter-spacing: 1px;
 }
-
+@media screen and (max-width: 768px) {
+  .add_contact,
+  .add_demand{
+    border: 2px solid rgb(48, 184, 7);
+    color: rgb(48, 184, 7);
+    background-color: #fff;
+    height: 40px;
+    outline: none;
+    transition: all 0.4s;
+    letter-spacing: 1px;
+    width: 300px
+  }
+}
 .add_contact:hover,
 .add_demand:hover{
   background-color: rgb(48, 184, 7);
@@ -1445,4 +1507,9 @@ input[type="text"] {
   transform: scale(1.1);
 }
 
-
+.contact_info + .contact_info,
+.demand_info + .demand_info {
+  border-top: 1px solid #e5e5e5;
+  padding-top: 10px;
+  padding-right: 30px;
+}

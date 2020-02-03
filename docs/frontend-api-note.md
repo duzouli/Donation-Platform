@@ -25,6 +25,7 @@
 >     // 用户是否登录
 >     GLOGAL.CURRENT_LOGINED = true;
 >     ```
+> * 注意: 调用api的请求`url`必须以`/`结尾
 
 ## 示例 - jQuery 发送 ajax 调用 Api
 - 添加/更新 通用代码:
@@ -100,6 +101,7 @@
     ```
     POST /api/organizations/
     ```
+    * demo-01
     ```json
     {
         "contacts": [],
@@ -113,6 +115,30 @@
         "is_manual": false,
         "inspector": "http://127.0.0.1:8989/api/users/2/",
         "emergency": 0
+    }
+    ```
+    * demo-02 (后端更新, 添加 `organization` 时, 嵌套数据 `contact` 和 `demand` 去掉url, `inspector` 自动取自当前登录用户)
+    ```json
+    {
+        "contacts": [
+            {
+                "name": "张医生",
+                "phone": "12345678971"
+            }
+        ],
+        "demands": [
+            {
+                "name": "口罩",
+                "remark": "GB2612-2006标准"
+            },
+            {
+                "name": "防护服",
+                "amount": 100
+            }
+        ],
+        "province": "湖南省",
+        "city": "怀化市",
+        "name": "怀化市人民医院"
     }
     ```
 
@@ -144,3 +170,23 @@
         "emergency": 0
     }
     ```
+
+## API自定义查询参数
+* `GET /api/organizations/`
+    + 精确查询
+        - `province`: `string` 省, 优先级高于`scope`
+        - `city`: `string` 市
+        - `inspector`: `integer` 信息提交者用户id
+        - `name`: `string` 机构名, 优先级高于`fuzzy_name`
+        - `address`: `string` 机构地址, 优先级高于`fuzzy_address`
+        - `verified`: `bool`(`true`/`false` 或 `1`/`0`) 是否已验证
+    + 模糊查询
+        - `fuzzy_name`: `string` 机构名
+        - `fuzzy_address`: `string` 机构地址
+    + 专用查询
+        - `scope`: `string`, 可选值如下:
+            * `wuhan`: 武汉(武汉市)
+            * `hubei`: 武汉周边(湖北省中除武汉外的城市)
+            * `china`: 全国各地(湖北省以外的行政区划的城市)
+    + 通用参数
+        - `page`: `integer` 分页查询页码
