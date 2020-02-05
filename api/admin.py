@@ -2,6 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import Organization, OrganizationContact, OrganizationDemand, Team, TeamContact
+from .cache_helper import clear_by_prefix
 
 class OrganizationContactInlineAdmin(admin.StackedInline):
     model = OrganizationContact
@@ -22,6 +23,11 @@ class OrganizationAdmin(admin.ModelAdmin):
     readonly_fields = ['add_time',]
     inlines = (OrganizationContactInlineAdmin, OrganizationDemandInlineAdmin,)
 
+    def save_model(self, request, obj, form, change):
+        # print(form.changed_data)
+        super(OrganizationAdmin, self).save_model(request, obj, form, change)
+        clear_by_prefix('organization')
+
 admin.site.register(Organization, OrganizationAdmin)
 
 # -----------------------------------------------------------------------------------------
@@ -33,9 +39,14 @@ class TeamContactInlineAdmin(admin.StackedInline):
     can_delete = True
 
 class TeamAdmin(admin.ModelAdmin):
-    """docstring for OrganizationAdmin"""
+    """docstring for TeamAdmin"""
     list_display = ['name', 'address', 'verified', 'add_time',]
     readonly_fields = ['add_time',]
     inlines = (TeamContactInlineAdmin,)
+
+    def save_model(self, request, obj, form, change):
+        # print(form.changed_data)
+        super(TeamAdmin, self).save_model(request, obj, form, change)
+        clear_by_prefix('team')
 
 admin.site.register(Team, TeamAdmin)
